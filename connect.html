@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compose Mail</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Use Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom focus styles for better accessibility and aesthetics */
+        .form-input:focus {
+            outline: none;
+            border-color: #4f46e5; /* Indigo-500 */
+            box-shadow: 0 0 0 2px #c7d2fe; /* Indigo-200 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <!-- Main container for the email composition window -->
+    <div class="w-full max-w-3xl mx-auto bg-white rounded-lg shadow-2xl overflow-hidden my-8">
+        <!-- Header -->
+        <header class="bg-gray-800 text-white px-6 py-3">
+            <h1 class="text-lg font-semibold">Compose New Message</h1>
+        </header>
+
+        <!-- Form Section -->
+        <main class="p-6">
+            <form id="email-form">
+                <!-- To: Field -->
+                <div class="mb-4 border-b border-gray-200 pb-2">
+                    <label for="recipient" class="sr-only">To</label>
+                    <div class="flex items-center">
+                        <span class="text-gray-500 mr-2">To:</span>
+                        <input 
+                            type="email" 
+                            id="recipient" 
+                            name="recipient" 
+                            placeholder="recipient@example.com" 
+                            required
+                            class="w-full bg-transparent text-gray-800 focus:outline-none"
+                        >
+                    </div>
+                </div>
+
+                <!-- Subject: Field -->
+                <div class="mb-4 border-b border-gray-200 pb-2">
+                    <label for="subject" class="sr-only">Subject</label>
+                     <div class="flex items-center">
+                        <span class="text-gray-500 mr-2">Subject:</span>
+                        <input 
+                            type="text" 
+                            id="subject" 
+                            name="subject" 
+                            placeholder="Your subject line" 
+                            required
+                            class="w-full bg-transparent text-gray-800 focus:outline-none"
+                        >
+                    </div>
+                </div>
+
+                <!-- Body/Message Field -->
+                <div class="mb-6">
+                    <label for="message" class="sr-only">Message</label>
+                    <textarea 
+                        id="message" 
+                        name="message" 
+                        rows="12" 
+                        placeholder="Write your message here..." 
+                        required
+                        class="w-full p-3 bg-gray-50 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-shadow duration-200"
+                    ></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform duration-150 ease-in-out transform hover:scale-105 flex items-center">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Send
+                    </button>
+                    <button type="button" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-trash-alt fa-lg"></i>
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // Get the form element from the DOM
+        const emailForm = document.getElementById('email-form');
+
+        // Add an event listener for the form's 'submit' event
+        emailForm.addEventListener('submit', function(event) {
+            // Prevent the default form submission behavior, which would try to send data to a server
+            event.preventDefault();
+
+            // Get the values from the form fields
+            const recipient = document.getElementById('recipient').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // IMPORTANT:
+            // This creates a 'mailto' link. A mailto link tells the browser to open the user's
+            // default email client (like Outlook, Apple Mail, or a web client like Gmail if configured).
+            // It does NOT send the email directly from the webpage.
+            
+            // We use encodeURIComponent to make sure special characters in the subject and message
+            // are handled correctly in the URL.
+            const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+
+            // Redirect the browser to the mailto link, which triggers the email client to open.
+            window.location.href = mailtoLink;
+        });
+    </script>
+</body>
+</html>
